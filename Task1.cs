@@ -1,10 +1,65 @@
-Console.WriteLine("Enter a four-digit number:");
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
+using System.Linq;
 
-int num = int.Parse(Console.ReadLine());
+class Program
+{
+    private static List<string> names = new List<string>();
 
-int minlik = num / 1000;
-int yuzluk = (num % 1000) / 100;
-int onluq = (num % 100) / 10;
-int teklik = (num % 10);
+    static void Main(string[] args)
+    {
+        Add("Mrd /Kha");
 
-Console.WriteLine(minlik+yuzluk+onluq+teklik);
+        
+        Console.WriteLine("Add");                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+        foreach (var name in names)
+        {
+            Console.WriteLine(name);
+        }
+
+       
+        Delete("John Doe");
+
+        
+        Console.WriteLine("RemovedList:");
+        foreach (var name in names)
+        {
+            Console.WriteLine(name);
+        }
+    }
+
+    static void Add(string name)
+    {
+        if (File.Exists("names.json"))
+        {
+            string json = File.ReadAllText("names.json");
+            names = JsonSerializer.Deserialize<List<string>>(json);
+        }
+
+     
+        names.Add(name);
+
+ 
+        string updatedJson = JsonSerializer.Serialize(names);
+        File.WriteAllText("names.json", updatedJson);
+    }
+
+    static void Delete(string name)
+    {
+      
+        if (File.Exists("names.json"))
+        {
+            string json = File.ReadAllText("names.json");
+            names = JsonSerializer.Deserialize<List<string>>(json);
+        }
+
+        
+        names.Remove(name);
+
+       
+        string updatedJson = JsonSerializer.Serialize(names);
+        File.WriteAllText("names.json", updatedJson);
+    }
+}
